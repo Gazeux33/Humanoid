@@ -14,20 +14,21 @@ class HumanoidSimulationBase(ABC):
         self.agent = None
         self.model_dir = model_dir
 
-        if not os.path.exists(self.simulation_name):
-            os.makedirs(self.simulation_name)
 
 
     @abstractmethod
     def reward(self, state, action, next_state, rewards=None):
-        return 0
+        raise NotImplementedError
 
-    def train(self, checkpoints: str = None, save_freq = 500):
+    def train(self, checkpoints: str = None, save_freq = 50):
         self._init_env(self.env_name, mode="rgb_array")
+
         if checkpoints is not None:
             self.model = SAC.load(checkpoints, env=self.env)
+            print(f"Loaded model from {checkpoints}")
         else:
             self.model = SAC('MlpPolicy', self.env, verbose=1)
+
 
         iters = 0
         while True:
@@ -45,12 +46,15 @@ class HumanoidSimulationBase(ABC):
                 obs = next_obs
 
             if iters % save_freq == 0:
-                self.model.save(f"{self.model_dir}/{self.simulation_name}/SAC_{iters}")
-                print(f"Saved model at {self.model_dir}/{self.simulation_name}/SAC_{iters}")
+                name = f"{self.model_dir}/{self.simulation_name}/SAC_{self.model.num_timesteps}"
+                self.model.save(name)
+                print(f"Saved model at {name}")
 
     def visualize(self, path_to_model: str, iterations: int = 100):
         self._init_env(self.env_name, mode="human")
+
         self.model = SAC.load(path_to_model, env=self.env)
+        print(f"Loaded model from {path_to_model}")
 
         for _ in range(iterations):
             state, _ = self.env.reset()

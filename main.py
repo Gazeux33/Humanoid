@@ -1,5 +1,5 @@
 import argparse
-from src.simulation import DefaultHumanoidSimulation
+from src.simulation import HumanoidSimulationBase
 from src.utils import get_last_save_path
 
 ENV_NAME = 'Humanoid-v5'
@@ -22,7 +22,7 @@ def parse_arguments():
 if __name__ == "__main__":
     args = parse_arguments()
     name = "DefaultHumanoid"
-    simulation = DefaultHumanoidSimulation(name)
+    simulation = HumanoidSimulationBase(name)
 
     if args.command == 'train':
         last_save_path = get_last_save_path(args.checkpoints)

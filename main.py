@@ -1,4 +1,4 @@
-from src.simulations import DefaultHumanoidSimulation
+from src.simulation import DefaultHumanoidSimulation
 from src.utils import get_last_save_path
 
 

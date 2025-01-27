@@ -7,7 +7,7 @@ class HumanoidSimulationBase:
     Base class for humanoid simulations, handling training and visualization.
     """
 
-    def __init__(self, simulation_name: str, env_name: str = 'Humanoid-v5', model_dir: str = "checkpoints"):
+    def __init__(self, simulation_name: str, env_name: str = 'Humanoid-v5', model_dir: str = "checkpoints")->None:
         """
         Initialize the simulation with a name, environment, and model directory.
 
@@ -23,7 +23,7 @@ class HumanoidSimulationBase:
         self.agent = None
         self.model_dir = model_dir
 
-    def train(self, checkpoints: str = None, save_freq=50, max_episodes="inf"):
+    def train(self, checkpoints: str = None, save_freq=50, max_episodes="inf") -> None:
         """
         Train the humanoid simulation.
 
@@ -43,7 +43,7 @@ class HumanoidSimulationBase:
                 self._save_model()
         self.env.close()
 
-    def visualize(self, path_to_model: str, iterations: int = 100):
+    def visualize(self, path_to_model: str, iterations: int = 100)->None:
         """
         Visualize the humanoid simulation using a trained model.
 
@@ -60,7 +60,7 @@ class HumanoidSimulationBase:
             self._run_one_episode(learn=False, render=True, deterministic=True)
         self.env.close()
 
-    def _run_one_episode(self, learn: bool, render: bool, deterministic: bool):
+    def _run_one_episode(self, learn: bool, render: bool, deterministic: bool)-> dict:
         """
         Execute a single episode of the simulation.
 
@@ -92,7 +92,7 @@ class HumanoidSimulationBase:
         
 
 
-    def _load_model(self, path_to_model: str):
+    def _load_model(self, path_to_model: str) -> None:
         """
         Load a model from a given path, or initialize a new model.
 
@@ -106,7 +106,7 @@ class HumanoidSimulationBase:
             self.model = SAC('MlpPolicy', self.env, verbose=1)
         
     
-    def _init_env(self, name: str , mode: str):
+    def _init_env(self, name: str , mode: str) -> tuple:
         """
         Initialize the environment with a given name and render mode.
 
